@@ -1,8 +1,8 @@
 .container {
   min-height: 100vh;
   background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
-  padding: 24px;
-  padding-bottom: 48px;
+  padding: 16px;
+  padding-bottom: 32px;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -17,32 +17,48 @@
 }
 
 .header {
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 
 .headerTop {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 24px;
+  align-items: center;
+  margin-bottom: 16px;
 }
 
 .headerLeft {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.headerText {
+  display: none;
 }
 
 .appLogo {
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   object-fit: contain;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.appLogoHorizontal {
+  object-fit: contain;
+  height: 40px;
+  width: auto;
+}
+
 .appName {
-  font-size: 2.25rem;
+  font-size: 1.5rem;
   font-weight: 900;
   background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   -webkit-background-clip: text;
@@ -55,10 +71,63 @@
 }
 
 .tagline {
-  font-size: 0.9375rem;
+  font-size: 0.75rem;
   color: var(--text-secondary);
-  margin: 6px 0 0 0;
+  margin: 4px 0 0 0;
   font-weight: 500;
+}
+
+/* Mobile-first responsive design */
+@media (max-width: 640px) {
+  .headerTop {
+    gap: 12px;
+  }
+
+  .headerRight {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding: 24px;
+    padding-bottom: 48px;
+  }
+
+  .header {
+    margin-bottom: 32px;
+  }
+
+  .headerTop {
+    margin-bottom: 24px;
+  }
+
+  .headerLeft {
+    gap: 16px;
+  }
+
+  .headerRight {
+    gap: 16px;
+  }
+
+  .headerText {
+    display: block;
+  }
+
+  .appLogo {
+    width: 48px;
+    height: 48px;
+  }
+
+  .appName {
+    font-size: 2.25rem;
+  }
+
+  .tagline {
+    font-size: 0.9375rem;
+    margin: 6px 0 0 0;
+  }
 }
 
 .userAvatar {
@@ -92,98 +161,140 @@
 
 .statsBar {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-bottom: 32px;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
 }
 
 .stat {
   background: white;
-  padding: 20px 16px;
-  border-radius: var(--radius-xl);
+  padding: 16px 12px;
+  border-radius: 12px;
   text-align: center;
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-xs);
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .stat:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--primary-light);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-color: #3b82f6;
 }
 
 .statValue {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   font-weight: 800;
-  color: var(--text-primary);
-  margin-bottom: 6px;
+  color: #0f172a;
+  margin-bottom: 4px;
   letter-spacing: -0.02em;
-  background: linear-gradient(
-    135deg,
-    var(--primary) 0%,
-    var(--primary-dark) 100%
-  );
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .statLabel {
-  font-size: 0.8125rem;
-  color: var(--text-tertiary);
+  font-size: 0.75rem;
+  color: #64748b;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
+/* Mobile-first responsive design */
+@media (min-width: 640px) {
+  .statsBar {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .stat {
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+
+  .statValue {
+    font-size: 1.75rem;
+    margin-bottom: 6px;
+  }
+
+  .statLabel {
+    font-size: 0.8125rem;
+  }
+}
+
 .campaignGrid {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
 .emptyState {
   text-align: center;
-  padding: 80px 20px;
+  padding: 40px 16px;
   background: white;
-  border-radius: var(--radius-2xl);
-  border: 2px dashed var(--border);
-  margin-top: 24px;
+  border-radius: 16px;
+  border: 2px dashed #e5e7eb;
+  margin-top: 16px;
 }
 
 .emptyIcon {
-  font-size: 5rem;
-  margin-bottom: 20px;
+  font-size: 3rem;
+  margin-bottom: 16px;
   opacity: 0.4;
   filter: grayscale(0.3);
 }
 
 .emptyTitle {
-  font-size: 1.375rem;
+  font-size: 1.125rem;
   font-weight: 700;
-  color: var(--text-primary);
-  margin: 0 0 12px 0;
+  color: #0f172a;
+  margin: 0 0 8px 0;
   letter-spacing: -0.01em;
 }
 
 .emptyText {
-  font-size: 0.9375rem;
-  color: var(--text-secondary);
+  font-size: 0.875rem;
+  color: #64748b;
   margin: 0;
   line-height: 1.6;
 }
 
+/* Mobile-first responsive design */
+@media (min-width: 640px) {
+  .campaignGrid {
+    gap: 16px;
+  }
+
+  .emptyState {
+    padding: 80px 20px;
+    border-radius: 24px;
+    margin-top: 24px;
+  }
+
+  .emptyIcon {
+    font-size: 5rem;
+    margin-bottom: 20px;
+  }
+
+  .emptyTitle {
+    font-size: 1.375rem;
+    margin: 0 0 12px 0;
+  }
+
+  .emptyText {
+    font-size: 0.9375rem;
+  }
+}
+
 .rewardsHeader {
-  background: linear-gradient(
-    135deg,
-    var(--primary) 0%,
-    var(--primary-dark) 100%
-  );
-  border-radius: var(--radius-2xl);
-  padding: 48px 32px;
-  margin-bottom: 40px;
-  box-shadow: var(--shadow-xl), var(--shadow-primary);
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  border-radius: 16px;
+  padding: 24px 16px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
   position: relative;
   overflow: hidden;
 }
@@ -210,66 +321,89 @@
 }
 
 .earningsLabel {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
 
 .earningsAmount {
-  font-size: 3.5rem;
+  font-size: 2.5rem;
   font-weight: 900;
   color: white;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   line-height: 1;
   letter-spacing: -0.03em;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
 }
 
 .earningsSubtext {
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   color: rgba(255, 255, 255, 0.9);
   font-weight: 500;
 }
 
+/* Mobile-first responsive design */
+@media (min-width: 640px) {
+  .rewardsHeader {
+    border-radius: 24px;
+    padding: 48px 32px;
+    margin-bottom: 40px;
+  }
+
+  .earningsLabel {
+    font-size: 0.875rem;
+    margin-bottom: 12px;
+  }
+
+  .earningsAmount {
+    font-size: 3.5rem;
+    margin-bottom: 8px;
+  }
+
+  .earningsSubtext {
+    font-size: 0.9375rem;
+  }
+}
+
 .section {
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 
 .sectionTitle {
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: #0f172a;
-  margin: 0 0 16px 0;
+  margin: 0 0 12px 0;
 }
 
 .achievementGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: 12px;
 }
 
 .achievement {
   background: white;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-xl);
-  padding: 24px 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px 16px;
   text-align: center;
-  box-shadow: var(--shadow-xs);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .achievement:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-  border-color: var(--primary-light);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-color: #3b82f6;
 }
 
 .achievementIcon {
-  font-size: 3rem;
-  margin-bottom: 16px;
+  font-size: 2.5rem;
+  margin-bottom: 12px;
   display: inline-block;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -279,31 +413,66 @@
 }
 
 .achievementName {
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 6px;
+  color: #0f172a;
+  margin-bottom: 4px;
   letter-spacing: -0.01em;
 }
 
 .achievementProgress {
-  font-size: 0.8125rem;
-  color: var(--text-secondary);
+  font-size: 0.75rem;
+  color: #64748b;
   font-weight: 600;
+}
+
+/* Mobile-first responsive design */
+@media (min-width: 640px) {
+  .section {
+    margin-bottom: 32px;
+  }
+
+  .sectionTitle {
+    font-size: 1.25rem;
+    margin: 0 0 16px 0;
+  }
+
+  .achievementGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .achievement {
+    padding: 24px 20px;
+    border-radius: 16px;
+  }
+
+  .achievementIcon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+  }
+
+  .achievementName {
+    font-size: 0.9375rem;
+    margin-bottom: 6px;
+  }
+
+  .achievementProgress {
+    font-size: 0.8125rem;
+  }
 }
 
 .activityList {
   background: white;
   border: 1px solid #e5e7eb;
-  border-radius: 16px;
+  border-radius: 12px;
   overflow: hidden;
 }
 
 .activityItem {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 16px;
+  gap: 10px;
+  padding: 12px;
   border-bottom: 1px solid #f3f4f6;
 }
 
@@ -312,7 +481,7 @@
 }
 
 .activityIcon {
-  font-size: 2rem;
+  font-size: 1.5rem;
   flex-shrink: 0;
 }
 
@@ -322,7 +491,7 @@
 }
 
 .activityTitle {
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   color: #0f172a;
   margin-bottom: 2px;
@@ -332,13 +501,41 @@
 }
 
 .activityMeta {
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   color: #64748b;
 }
 
 .activityReward {
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 700;
   color: #10b981;
   flex-shrink: 0;
+}
+
+/* Mobile-first responsive design */
+@media (min-width: 640px) {
+  .activityList {
+    border-radius: 16px;
+  }
+
+  .activityItem {
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .activityIcon {
+    font-size: 2rem;
+  }
+
+  .activityTitle {
+    font-size: 0.875rem;
+  }
+
+  .activityMeta {
+    font-size: 0.75rem;
+  }
+
+  .activityReward {
+    font-size: 0.875rem;
+  }
 }

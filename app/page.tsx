@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Navigation, FilterBar } from "./components/Navigation";
 import { CampaignCard } from "./components/CampaignCard";
 import { UserInfo } from "./components/UserInfo";
+import { WalletConnect } from "./components/WalletConnect";
 import { Campaign } from "./lib/dataService";
 import { useRealCampaigns, useRealUserProgress } from "./lib/dataService";
 import { ClientWrapper } from "./components/ClientWrapper";
@@ -68,18 +69,17 @@ function HomeContent() {
         <div className={styles.headerTop}>
           <div className={styles.headerLeft}>
             <Image
-              src="/Adexus logo.png"
+              src="/Adexus_horizontal.png"
               alt="Adexus Logo"
-              width={48}
-              height={48}
-              className={styles.appLogo}
+              width={140}
+              height={40}
+              className={styles.appLogoHorizontal}
             />
-            <div>
-              <h1 className={styles.appName}>Adexus</h1>
-              <p className={styles.tagline}>Earn crypto for your engagement</p>
-            </div>
           </div>
-          <UserInfo />
+          <div className={styles.headerRight}>
+            <UserInfo />
+            <WalletConnect />
+          </div>
         </div>
       </header>
 
@@ -170,32 +170,6 @@ function HomeContent() {
           </div>
 
           <div className={styles.section}>
-            <h2 className={styles.sectionTitle}>Achievements</h2>
-            <div className={styles.achievementGrid}>
-              <div className={styles.achievement}>
-                <div className={styles.achievementIcon}>🎯</div>
-                <div className={styles.achievementName}>First Campaign</div>
-                <div className={styles.achievementProgress}>✓ Unlocked</div>
-              </div>
-              <div className={styles.achievement}>
-                <div className={styles.achievementIcon}>⭐</div>
-                <div className={styles.achievementName}>5 Campaigns</div>
-                <div className={styles.achievementProgress}>✓ Unlocked</div>
-              </div>
-              <div className={styles.achievement}>
-                <div className={styles.achievementIcon}>💎</div>
-                <div className={styles.achievementName}>10 Campaigns</div>
-                <div className={styles.achievementProgress}>4/10</div>
-              </div>
-              <div className={styles.achievement}>
-                <div className={styles.achievementIcon}>🏆</div>
-                <div className={styles.achievementName}>$100 Earned</div>
-                <div className={styles.achievementProgress}>$47.50/$100</div>
-              </div>
-            </div>
-          </div>
-
-          <div className={styles.section}>
             <h2 className={styles.sectionTitle}>Recent Activity</h2>
             <div className={styles.activityList}>
               {allCampaigns
@@ -218,6 +192,17 @@ function HomeContent() {
                     </div>
                   </div>
                 ))}
+              {userProgress.completedCampaignIds.length === 0 && (
+                <div className={styles.emptyState}>
+                  <div className={styles.emptyIcon}>📝</div>
+                  <h3 className={styles.emptyTitle}>
+                    No completed campaigns yet
+                  </h3>
+                  <p className={styles.emptyText}>
+                    Complete campaigns to see your activity here
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -228,9 +213,9 @@ function HomeContent() {
         <div className={styles.content}>
           <div className={styles.section}>
             <h2 className={styles.sectionTitle}>Campaign Creator Hub</h2>
-            <p style={{ color: "#64748b", marginBottom: "24px" }}>
+            {/* <p style={{ color: "#64748b", marginBottom: "24px" }}>
               Create and manage campaigns to engage users and grow your brand
-            </p>
+            </p> */}
 
             <div style={{ display: "grid", gap: "16px" }}>
               <div
@@ -253,9 +238,6 @@ function HomeContent() {
                   e.currentTarget.style.transform = "translateY(0)";
                 }}
               >
-                <div style={{ fontSize: "2.5rem", marginBottom: "12px" }}>
-                  ➕
-                </div>
                 <h3
                   style={{
                     fontSize: "1.125rem",
@@ -294,9 +276,6 @@ function HomeContent() {
                   e.currentTarget.style.transform = "translateY(0)";
                 }}
               >
-                <div style={{ fontSize: "2.5rem", marginBottom: "12px" }}>
-                  📊
-                </div>
                 <h3
                   style={{
                     fontSize: "1.125rem",

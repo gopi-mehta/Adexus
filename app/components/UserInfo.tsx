@@ -37,22 +37,6 @@ export function UserInfo() {
         alignItems: "center",
         gap: "12px",
       }}
-    >
-      {/* User Info */}
-      <div style={{ flex: 1 }}>
-        {/* Wallet Address */}
-        {isConnected && address && (
-          <div
-            style={{
-              fontSize: "0.75rem",
-              color: "#64748b",
-              fontFamily: "monospace",
-            }}
-          >
-            {truncateAddress(address)}
-          </div>
-        )}
-      </div>
-    </div>
+    ></div>
   );
 }

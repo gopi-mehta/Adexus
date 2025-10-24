@@ -28,6 +28,8 @@ export interface Campaign {
   isActive: boolean;
   difficulty: "easy" | "medium" | "hard";
   tags: string[];
+  totalFunded: number;
+  totalPaid: number;
   videoUrl?: string;
   videoDuration?: number; // in seconds
   surveyQuestions?: Array<{
@@ -122,6 +124,8 @@ export function useRealCampaigns() {
               maxParticipants: formatted.maxParticipants,
               expiresAt: formatted.expiresAt,
               isActive: formatted.isActive,
+              totalFunded: formatted.totalFunded,
+              totalPaid: formatted.totalPaid,
               difficulty: metadata.difficulty,
               tags: metadata.tags,
               // Include type-specific data from metadata
@@ -179,9 +183,13 @@ export function useRealUserProgress() {
       totalEarned: totalEarnings
         ? parseFloat(formatEther(totalEarnings as bigint))
         : 0,
-      campaignsCompleted: completedCampaigns ? Number(completedCampaigns) : 0,
-      completedCampaignIds: [], // This would be populated from completed campaigns
-      inProgressCampaignIds: [], // This would be populated from in-progress campaigns
+      campaignsCompleted: completedCampaigns
+        ? (completedCampaigns as bigint[]).length
+        : 0,
+      completedCampaignIds: completedCampaigns
+        ? (completedCampaigns as bigint[]).map((id) => id.toString())
+        : [],
+      inProgressCampaignIds: [], // Not tracked on-chain yet
     }),
     [totalEarnings, completedCampaigns]
   );

@@ -267,6 +267,8 @@ export function formatCampaignForUI(campaign: CampaignData) {
     participantsCount: Number(campaign.participantsCount),
     expiresAt: new Date(Number(campaign.expiresAt) * 1000).toISOString(),
     isActive: campaign.isActive,
+    totalFunded: parseFloat(formatEther(campaign.totalFunded)),
+    totalPaid: parseFloat(formatEther(campaign.totalPaid)),
     progress:
       (Number(campaign.participantsCount) / Number(campaign.maxParticipants)) *
       100,

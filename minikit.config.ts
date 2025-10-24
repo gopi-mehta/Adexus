@@ -11,9 +11,11 @@ const ROOT_URL =
  */
 export const minikitConfig = {
   accountAssociation: {
-    header: "",
-    payload: "",
-    signature: "",
+    header:
+      "eyJmaWQiOjIyNzczMCwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDliNUUzN0UzNTBGNjZBMkYzNGU4NUMzOEQwYTM3NDc4ZDQxYWYzOUIifQ",
+    payload: "eyJkb21haW4iOiJiYXNlLWF1dGgtb3JjaW4udmVyY2VsLmFwcCJ9",
+    signature:
+      "MHg3NDg0YmIyZjVlMTdjYjI3NzAzOGI1YzZjOTQwOGZlMmZjZWIwNDRiNDJkMTIwNGNjYzBmZjc3MzUzYTFiNjI4NTFjZTRlODNjZTk0NDEyYjExNDdjNjUxZDc1ZTA4NzA0MjlkNjFhNDFkMTRlNzdkNWVkZTRiNDg1YWY1ZTM5ZDFj",
   },
   miniapp: {
     version: "1",
@@ -31,9 +33,13 @@ export const minikitConfig = {
     tags: ["rewards", "crypto", "campaigns", "engagement", "earn"],
     heroImageUrl: `${ROOT_URL}/Adexus_horizontal.png`,
     tagline: "Earn crypto rewards for your engagement",
+    // Open Graph metadata for Farcaster preview
     ogTitle: "Adexus - Earn Crypto for Brand Engagement",
     ogDescription:
       "Complete brand campaigns and earn instant crypto rewards. No data sharing required.",
-    ogImageUrl: `${ROOT_URL}/Adexus_horizontal.png`,
+    ogImageUrl: `${ROOT_URL}/Adexus_horizontal.png`, // ensure this image is 1200x630 px recommended
+  },
+  baseBuilder: {
+    ownerAddress: "0xcc30b50D97ef2993201161945Eda9D4912d8dE55",
   },
 } as const;

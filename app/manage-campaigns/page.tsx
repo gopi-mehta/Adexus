@@ -61,11 +61,21 @@ function ManageCampaignsContent() {
   const handleWithdrawFunds = async (campaignId: string) => {
     try {
       setIsProcessing(campaignId);
+
+      // Note: Smart contract will handle the actual withdrawal
+      // UI shows withdrawable amount excluding platform fees for transparency
       await withdrawUnusedFunds(parseInt(campaignId));
-      alert("Unused funds withdrawn successfully!");
+
+      alert(
+        "Funds withdrawn successfully!\n\nNote: Platform fees (2.5%) for unfilled spots remain reserved in the contract."
+      );
     } catch (error) {
       console.error("Error withdrawing funds:", error);
-      alert("Failed to withdraw funds. Please try again.");
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error";
+      alert(
+        `Failed to withdraw funds: ${errorMessage}\n\nPlease ensure the campaign is paused or expired, and you have funds available to withdraw.`
+      );
     } finally {
       setIsProcessing(null);
     }
@@ -79,6 +89,9 @@ function ManageCampaignsContent() {
   const handleViewAnalytics = (campaignId: string) => {
     // Navigate to analytics page (to be implemented)
     console.log("View analytics for campaign:", campaignId);
+    alert(
+      "Analytics feature coming soon!\n\nThis will show detailed metrics including:\n• View counts\n• Completion rates\n• Engagement statistics\n• Revenue breakdown"
+    );
   };
 
   return (
@@ -90,18 +103,20 @@ function ManageCampaignsContent() {
 
         <div className={styles.headerTop}>
           <div className={styles.headerContent}>
-            <Image
-              src="/Adexus logo.png"
-              alt="Adexus Logo"
-              width={48}
-              height={48}
-              className={styles.appLogo}
-            />
-            <div>
-              <h1 className={styles.title}>Manage Campaigns</h1>
-              <p className={styles.subtitle}>
-                Track and manage your active campaigns
-              </p>
+            <div className={styles.logoTitleWrapper}>
+              <Image
+                src="/Adexus_horizontal.png"
+                alt="Adexus Logo"
+                width={120}
+                height={36}
+                className={styles.appLogo}
+              />
+              <div>
+                <h1 className={styles.title}>Manage Campaigns</h1>
+                <p className={styles.subtitle}>
+                  Track and manage your active campaigns
+                </p>
+              </div>
             </div>
           </div>
           <Button onClick={() => router.push("/create-campaign")} size="md">
@@ -126,10 +141,37 @@ function ManageCampaignsContent() {
           </div>
           <div className={styles.stat}>
             <div className={styles.statValue}>
-              ${totalRewardsDistributed.toFixed(2)}
+              {totalRewardsDistributed.toFixed(4)} ETH
             </div>
             <div className={styles.statLabel}>Rewards Distributed</div>
           </div>
+        </div>
+
+        <div
+          style={{
+            marginTop: "16px",
+            padding: "12px 16px",
+            background: "#f0f7ff",
+            border: "1px solid #bfdbfe",
+            borderRadius: "12px",
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+          }}
+        >
+          <span style={{ fontSize: "1rem" }}>💡</span>
+          <p
+            style={{
+              margin: 0,
+              fontSize: "0.75rem",
+              color: "#1e40af",
+              lineHeight: "1.5",
+            }}
+          >
+            <strong>Withdrawable funds:</strong> Platform fees (2.5%) are
+            reserved for unfilled campaign spots. You can only withdraw funds
+            after accounting for these reserved fees.
+          </p>
         </div>
       </div>
 
@@ -193,6 +235,25 @@ function ManageCampaignsContent() {
               (campaign.participantsCount / campaign.maxParticipants) * 100;
             const rewardsDistributed =
               campaign.participantsCount * campaign.reward;
+            const unusedFunds = campaign.totalFunded - campaign.totalPaid;
+
+            // Calculate platform fees for remaining spots (2.5%)
+            const remainingSpots =
+              campaign.maxParticipants - campaign.participantsCount;
+            const platformFeePercentage = 0.025; // 2.5%
+            const reservedPlatformFees =
+              remainingSpots * campaign.reward * platformFeePercentage;
+
+            // Withdrawable amount excludes platform fees for unfilled spots
+            const withdrawableAmount = Math.max(
+              0,
+              unusedFunds - reservedPlatformFees
+            );
+
+            const canWithdraw =
+              (!campaign.isActive ||
+                new Date(campaign.expiresAt) < new Date()) &&
+              withdrawableAmount > 0;
 
             return (
               <div key={campaign.id} className={styles.campaignCard}>
@@ -226,9 +287,15 @@ function ManageCampaignsContent() {
                   </div>
                   <div className={styles.campaignStat}>
                     <div className={styles.campaignStatValue}>
-                      ${rewardsDistributed.toFixed(2)}
+                      {rewardsDistributed.toFixed(4)} ETH
                     </div>
                     <div className={styles.campaignStatLabel}>Distributed</div>
+                  </div>
+                  <div className={styles.campaignStat}>
+                    <div className={styles.campaignStatValue}>
+                      {withdrawableAmount.toFixed(4)} ETH
+                    </div>
+                    <div className={styles.campaignStatLabel}>Withdrawable</div>
                   </div>
                   <div className={styles.campaignStat}>
                     <div className={styles.campaignStatValue}>
@@ -292,10 +359,30 @@ function ManageCampaignsContent() {
                   <button
                     className={`${styles.actionButton} ${styles.danger}`}
                     onClick={() => handleWithdrawFunds(campaign.id)}
-                    disabled={isProcessing === campaign.id || isWritePending}
+                    disabled={
+                      !canWithdraw ||
+                      isProcessing === campaign.id ||
+                      isWritePending
+                    }
+                    title={
+                      !canWithdraw
+                        ? campaign.isActive &&
+                          new Date(campaign.expiresAt) >= new Date()
+                          ? "Campaign must be paused or expired to withdraw funds"
+                          : withdrawableAmount === 0 && unusedFunds > 0
+                          ? `Platform fees (${reservedPlatformFees.toFixed(
+                              4
+                            )} ETH) reserved for remaining ${remainingSpots} spots`
+                          : "No funds available to withdraw"
+                        : `Withdraw ${withdrawableAmount.toFixed(
+                            4
+                          )} ETH (excludes platform fees)`
+                    }
                   >
                     {isProcessing === campaign.id
                       ? "⏳ Processing..."
+                      : withdrawableAmount > 0
+                      ? `💰 Withdraw ${withdrawableAmount.toFixed(4)} ETH`
                       : "💰 Withdraw Funds"}
                   </button>
                 </div>

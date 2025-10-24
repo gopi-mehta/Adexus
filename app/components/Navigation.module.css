@@ -1,12 +1,12 @@
 .nav {
   display: flex;
-  gap: 8px;
-  padding: 8px;
+  gap: 6px;
+  padding: 6px;
   background: white;
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--border);
-  margin-bottom: 28px;
-  box-shadow: var(--shadow-sm);
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   position: relative;
 }
 
@@ -15,17 +15,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 14px 20px;
+  gap: 6px;
+  padding: 10px 12px;
   border: none;
   background: transparent;
-  border-radius: var(--radius-lg);
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-family: inherit;
   font-weight: 600;
-  font-size: 0.9375rem;
-  color: var(--text-secondary);
+  font-size: 0.8125rem;
+  color: #64748b;
   letter-spacing: -0.01em;
   position: relative;
   overflow: hidden;
@@ -35,7 +35,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: var(--muted);
+  background: #f1f5f9;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -45,17 +45,13 @@
 }
 
 .navItem:hover {
-  color: var(--text-primary);
+  color: #0f172a;
 }
 
 .navItem.active {
-  background: linear-gradient(
-    135deg,
-    var(--primary) 0%,
-    var(--primary-dark) 100%
-  );
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   color: white;
-  box-shadow: var(--shadow-md), var(--shadow-primary);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
   transform: translateY(-1px);
 }
 
@@ -64,7 +60,7 @@
 }
 
 .icon {
-  font-size: 1.375rem;
+  font-size: 1.125rem;
   line-height: 1;
   position: relative;
   z-index: 1;
@@ -81,12 +77,33 @@
   z-index: 1;
 }
 
+/* Mobile-first responsive design */
+@media (min-width: 640px) {
+  .nav {
+    gap: 8px;
+    padding: 8px;
+    border-radius: 16px;
+    margin-bottom: 28px;
+  }
+
+  .navItem {
+    gap: 10px;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-size: 0.9375rem;
+  }
+
+  .icon {
+    font-size: 1.375rem;
+  }
+}
+
 .filterBar {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   overflow-x: auto;
   padding: 4px;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -98,40 +115,36 @@
 .filterBtn {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  border: 1.5px solid var(--border);
+  gap: 6px;
+  padding: 8px 16px;
+  border: 1.5px solid #e5e7eb;
   background: white;
-  border-radius: var(--radius-full);
+  border-radius: 20px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-family: inherit;
   font-weight: 600;
-  font-size: 0.875rem;
-  color: var(--text-secondary);
+  font-size: 0.8125rem;
+  color: #64748b;
   white-space: nowrap;
   flex-shrink: 0;
   letter-spacing: -0.01em;
-  box-shadow: var(--shadow-xs);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .filterBtn:hover {
-  border-color: var(--primary);
-  background: var(--primary-light);
-  color: var(--primary-dark);
+  border-color: #3b82f6;
+  background: #f0f7ff;
+  color: #1e40af;
   transform: translateY(-1px);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .filterBtn.activeFilter {
-  background: linear-gradient(
-    135deg,
-    var(--primary) 0%,
-    var(--primary-dark) 100%
-  );
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   color: white;
-  border-color: var(--primary);
-  box-shadow: var(--shadow-sm), var(--shadow-primary);
+  border-color: #3b82f6;
+  box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
   transform: translateY(-1px);
 }
 
@@ -140,11 +153,29 @@
 }
 
 .filterIcon {
-  font-size: 1.125rem;
+  font-size: 1rem;
   line-height: 1;
   transition: transform 0.3s ease;
 }
 
 .filterLabel {
   font-size: inherit;
+}
+
+/* Mobile-first responsive design */
+@media (min-width: 640px) {
+  .filterBar {
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .filterBtn {
+    gap: 8px;
+    padding: 10px 20px;
+    font-size: 0.875rem;
+  }
+
+  .filterIcon {
+    font-size: 1.125rem;
+  }
 }
