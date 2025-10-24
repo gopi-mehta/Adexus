@@ -7,6 +7,7 @@ import { Navigation, FilterBar } from "./components/Navigation";
 import { CampaignCard } from "./components/CampaignCard";
 import { UserInfo } from "./components/UserInfo";
 import { WalletConnect } from "./components/WalletConnect";
+import { NetworkSwitcher } from "./components/NetworkSwitcher";
 import { Campaign } from "./lib/dataService";
 import { useRealCampaigns, useRealUserProgress } from "./lib/dataService";
 import { ClientWrapper } from "./components/ClientWrapper";
@@ -86,6 +87,11 @@ function HomeContent() {
       {/* Navigation */}
       <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
 
+      {/* Network Switcher Warning */}
+      <div style={{ marginBottom: "16px" }}>
+        <NetworkSwitcher />
+      </div>
+
       {/* Campaigns Tab */}
       {activeTab === "campaigns" && (
         <div className={styles.content}>
@@ -125,6 +131,12 @@ function HomeContent() {
               <h3 className={styles.emptyTitle}>Error loading campaigns</h3>
               <p className={styles.emptyText}>
                 {campaignsError.message || "Failed to connect to blockchain"}
+              </p>
+              <p
+                className={styles.emptyText}
+                style={{ marginTop: "8px", fontSize: "0.875rem" }}
+              >
+                💡 Make sure you&apos;re connected to Base Sepolia testnet
               </p>
             </div>
           ) : (
