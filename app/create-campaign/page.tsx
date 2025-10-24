@@ -387,7 +387,7 @@ function CreateCampaignFormComponent() {
           </button>
           <div className={styles.headerContent}>
             <Image
-              src="/Adexus logo.png"
+              src="/Adexus_logo.png"
               alt="Adexus Logo"
               width={48}
               height={48}
