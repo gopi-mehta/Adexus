@@ -1,0 +1,52 @@
+.card {
+  border-radius: var(--radius-xl);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  background: var(--card-bg);
+}
+
+.card.default {
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-xs);
+}
+
+.card.outlined {
+  background: transparent;
+  border: 2px solid var(--border);
+}
+
+.card.elevated {
+  box-shadow: var(--shadow-md);
+  border: 1px solid transparent;
+}
+
+.card.clickable {
+  cursor: pointer;
+}
+
+.card.clickable:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-light);
+}
+
+.card.clickable:active {
+  transform: translateY(-2px);
+  transition-duration: 0.1s;
+}
+
+.cardHeader {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-light);
+  background: var(--muted);
+}
+
+.cardBody {
+  padding: 24px;
+}
+
+.cardFooter {
+  padding: 20px 24px;
+  border-top: 1px solid var(--border-light);
+  background: var(--muted);
+}
