@@ -1,4 +1,4 @@
-# RewardFlow - Brand Engagement Mini-App
+# Adexus - Empowering users, amplifying brands, revolutionizing attention
 
 A modern, mobile-first mini-app that enables brands to launch campaigns where users earn cryptocurrency rewards for completing various engagement actions.
 
