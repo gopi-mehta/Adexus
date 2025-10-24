@@ -21,10 +21,15 @@ import { Card, CardBody } from "./ui/Card";
  */
 export function OnChainExample() {
   const [mounted, setMounted] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
   const { useCampaignCounter, useUserTotalEarnings, contractAddress } =
     useCampaignContract();
+
+  // Read contract data - must be called at top level
+  const { data: campaignCounter } = useCampaignCounter();
+  const { data: totalEarnings } = useUserTotalEarnings(address);
 
   useEffect(() => {
     setMounted(true);
@@ -51,12 +56,6 @@ export function OnChainExample() {
       </Card>
     );
   }
-
-  // Read contract data
-  const { data: campaignCounter } = useCampaignCounter();
-  const { data: totalEarnings } = useUserTotalEarnings(address);
-
-  const [showDetails, setShowDetails] = useState(false);
 
   // Check if on supported network
   const isSupported = isSupportedNetwork(chainId);

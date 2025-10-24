@@ -11,20 +11,22 @@ const ROOT_URL =
  */
 export const minikitConfig = {
   accountAssociation: {
-    header:
-      "eyJmaWQiOjIyNzczMCwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDliNUUzN0UzNTBGNjZBMkYzNGU4NUMzOEQwYTM3NDc4ZDQxYWYzOUIifQ",
-    payload: "eyJkb21haW4iOiJiYXNlLWF1dGgtb3JjaW4udmVyY2VsLmFwcCJ9",
-    signature:
-      "MHg3NDg0YmIyZjVlMTdjYjI3NzAzOGI1YzZjOTQwOGZlMmZjZWIwNDRiNDJkMTIwNGNjYzBmZjc3MzUzYTFiNjI4NTFjZTRlODNjZTk0NDEyYjExNDdjNjUxZDc1ZTA4NzA0MjlkNjFhNDFkMTRlNzdkNWVkZTRiNDg1YWY1ZTM5ZDFj",
+    accountAssociation: {
+      header:
+        "eyJmaWQiOjQwMDc0MCwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweGZjRUYxQUNEQWNmM0FCM2RBQkU2MTQ2NTlBOWI5N2FmOWY4NTJiNDcifQ",
+      payload: "eyJkb21haW4iOiJhZGV4dXMudmVyY2VsLmFwcCJ9",
+      signature:
+        "Fk+g/7oHk4fzTO01aEsFA586PO1CHc+0Ft8W6z3wtnFKYjmky2Os1fOlZUjBA+oyQeM62XSVrsJDtQMrGAetyxs=",
+    },
   },
   miniapp: {
     version: "1",
     name: "Adexus",
-    subtitle: "Earn Crypto for Your Engagement",
+    subtitle: "Rewards for your engagement",
     description:
       "Complete brand campaigns and earn instant crypto rewards. No data sharing required.",
     screenshotUrls: [`${ROOT_URL}/Adexus_horizontal.png`],
-    iconUrl: `${ROOT_URL}/Adexus logo.png`,
+    iconUrl: `${ROOT_URL}/Adexus_logo.png`,
     splashImageUrl: `${ROOT_URL}/Adexus_horizontal.png`,
     splashBackgroundColor: "#0052FF",
     homeUrl: ROOT_URL,
@@ -32,9 +34,9 @@ export const minikitConfig = {
     primaryCategory: "social",
     tags: ["rewards", "crypto", "campaigns", "engagement", "earn"],
     heroImageUrl: `${ROOT_URL}/Adexus_horizontal.png`,
-    tagline: "Earn crypto rewards for your engagement",
+    tagline: "Rewards for your engagement",
     // Open Graph metadata for Farcaster preview
-    ogTitle: "Adexus - Earn Crypto for Brand Engagement",
+    ogTitle: "Adexus",
     ogDescription:
       "Complete brand campaigns and earn instant crypto rewards. No data sharing required.",
     ogImageUrl: `${ROOT_URL}/Adexus_horizontal.png`, // ensure this image is 1200x630 px recommended

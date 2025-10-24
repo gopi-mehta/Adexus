@@ -9,9 +9,9 @@ export async function generateMetadata(): Promise<Metadata> {
     title: minikitConfig.miniapp.name,
     description: minikitConfig.miniapp.description,
     icons: {
-      icon: "/Adexus logo.png",
-      shortcut: "/Adexus logo.png",
-      apple: "/Adexus logo.png",
+      icon: "/Adexus_logo.png",
+      shortcut: "/Adexus_logo.png",
+      apple: "/Adexus_logo.png",
     },
     other: {
       "fc:frame": JSON.stringify({
