@@ -78,12 +78,13 @@ export function useRealCampaigns() {
   const [campaignsWithMetadata, setCampaignsWithMetadata] = useState<
     Campaign[]
   >([]);
-  const [_isLoadingMetadata, setIsLoadingMetadata] = useState(false);
+  const [isLoadingMetadata, setIsLoadingMetadata] = useState(false);
 
   // Fetch metadata for campaigns
   useEffect(() => {
     if (!campaignsData || !Array.isArray(campaignsData)) {
       setCampaignsWithMetadata([]);
+      setIsLoadingMetadata(false);
       return;
     }
 
@@ -163,7 +164,7 @@ export function useRealCampaigns() {
 
   return {
     campaigns,
-    isLoading,
+    isLoading: isLoading || isLoadingMetadata,
     error,
     totalCampaigns,
   };

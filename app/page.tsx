@@ -51,6 +51,14 @@ function HomeContent() {
   const userProgress = useRealUserProgress();
   const [allCampaigns, setAllCampaigns] = useState<Campaign[]>([]);
 
+  // Debug: Log loading state
+  useEffect(() => {
+    console.log("📊 Campaign Loading State:", {
+      isLoading: campaignsLoading,
+      campaignsCount: realCampaigns?.length || 0,
+    });
+  }, [campaignsLoading, realCampaigns]);
+
   // Update campaigns when real data changes
   useEffect(() => {
     if (realCampaigns && realCampaigns.length > 0) {
