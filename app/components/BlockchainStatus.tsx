@@ -7,7 +7,7 @@ import { getNetworkName, isSupportedNetwork } from "../lib/contracts/config";
 
 export function BlockchainStatus() {
   const [mounted, setMounted] = useState(false);
-  const { address, isConnected } = useAccount();
+  const { address: _address, isConnected } = useAccount();
   const chainId = useChainId();
   const { contractAddress, useCampaignCounter } = useCampaignContract();
   const { data: campaignCounter, isLoading } = useCampaignCounter();

@@ -16,8 +16,12 @@ function CampaignPageContent() {
   const params = useParams();
   const { address, isConnected } = useAccount();
   const { campaigns: realCampaigns, isLoading } = useRealCampaigns();
-  const { completeCampaign, isWritePending, isConfirmed, writeError } =
-    useCampaignContract();
+  const {
+    completeCampaign,
+    isWritePending,
+    isConfirmed: _isConfirmed,
+    writeError: _writeError,
+  } = useCampaignContract();
   const [campaign, setCampaign] = useState<Campaign | null>(null);
   const [isCreator, setIsCreator] = useState(false);
   const [step, setStep] = useState<"intro" | "action" | "complete">("intro");
@@ -236,7 +240,7 @@ function CampaignPageContent() {
           </div>
 
           <div className={styles.actionSection}>
-            <h3 className={styles.sectionTitle}>What you'll do:</h3>
+            <h3 className={styles.sectionTitle}>What you&apos;ll do:</h3>
             <ul className={styles.taskList}>
               {campaign.type === "video" && (
                 <>
@@ -571,7 +575,9 @@ function CampaignPageContent() {
           <div className={styles.successSection}>
             <div className={styles.successIcon}>🎉</div>
             <h2 className={styles.successTitle}>Congratulations!</h2>
-            <p className={styles.successText}>You've completed the campaign</p>
+            <p className={styles.successText}>
+              You&apos;ve completed the campaign
+            </p>
 
             <div className={styles.rewardCard}>
               <div className={styles.rewardLabel}>You earned</div>

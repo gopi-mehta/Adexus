@@ -76,7 +76,7 @@ export function useRealCampaigns() {
   const [campaignsWithMetadata, setCampaignsWithMetadata] = useState<
     Campaign[]
   >([]);
-  const [isLoadingMetadata, setIsLoadingMetadata] = useState(false);
+  const [_isLoadingMetadata, setIsLoadingMetadata] = useState(false);
 
   // Fetch metadata for campaigns
   useEffect(() => {
@@ -99,7 +99,7 @@ export function useRealCampaigns() {
             }
 
             // Check if this is a placeholder campaign (created with old system)
-            const isPlaceholderCampaign =
+            const _isPlaceholderCampaign =
               campaign.metadataURI.includes("placeholder-");
 
             // Use metadata if available, otherwise return null for missing data
@@ -238,7 +238,7 @@ export function useUserCampaigns() {
             }
 
             // Check if this is a placeholder campaign (created with old system)
-            const isPlaceholderCampaign =
+            const _isPlaceholderCampaign =
               campaign.metadataURI.includes("placeholder-");
 
             // Use metadata if available, otherwise return null for missing data

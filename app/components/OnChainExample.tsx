@@ -111,8 +111,8 @@ export function OnChainExample() {
               ⚠️ Contract Not Deployed
             </p>
             <p style={{ color: "#64748b", fontSize: "0.875rem" }}>
-              Smart contracts haven't been deployed to this network yet. Check
-              BLOCKCHAIN_SETUP.md for deployment instructions.
+              Smart contracts haven&apos;t been deployed to this network yet.
+              Check BLOCKCHAIN_SETUP.md for deployment instructions.
             </p>
           </div>
         </CardBody>

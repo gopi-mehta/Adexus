@@ -1,6 +1,7 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { Button } from "../components/ui/Button";
 import { Progress } from "../components/ui/Progress";
 import { useUserCampaigns } from "../lib/dataService";
@@ -70,7 +71,7 @@ function ManageCampaignsContent() {
     }
   };
 
-  const handleEdit = (campaignId: string) => {
+  const handleEdit = (_campaignId: string) => {
     // Navigate to edit page (to be implemented)
     alert("Edit functionality will be implemented in a future update.");
   };
@@ -89,9 +90,11 @@ function ManageCampaignsContent() {
 
         <div className={styles.headerTop}>
           <div className={styles.headerContent}>
-            <img
+            <Image
               src="/Adexus logo.png"
               alt="Adexus Logo"
+              width={48}
+              height={48}
               className={styles.appLogo}
             />
             <div>

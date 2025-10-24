@@ -3,11 +3,11 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAccount } from "wagmi";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import { Button } from "../components/ui/Button";
 import { WalletGate } from "../components/WalletGate";
 import { ContractStatus } from "../components/ContractStatus";
 import { NetworkSwitcher } from "../components/NetworkSwitcher";
-import { CampaignType } from "../lib/mockData";
 import { useCreateCampaign } from "../lib/dataService";
 import { isValidYouTubeUrl } from "../lib/youtubeUtils";
 import styles from "./page.module.css";
@@ -104,7 +104,7 @@ function CreateCampaignFormComponent() {
     brandLogo: "🌐",
     title: "",
     description: "",
-    type: "video" as CampaignType,
+    type: "video",
     reward: "",
     rewardToken: "ETH",
     duration: "",
@@ -346,7 +346,7 @@ function CreateCampaignFormComponent() {
       const txHash = await createCampaign({
         title: formData.title,
         description: formData.description,
-        type: formData.type,
+        type: formData.type as "video" | "survey" | "share" | "quiz",
         reward: parseFloat(formData.reward),
         maxParticipants: parseInt(formData.maxParticipants),
         expiresAt: formData.expiresAt,
@@ -357,11 +357,6 @@ function CreateCampaignFormComponent() {
         brandLogo: formData.brandLogo,
         // Type-specific data
         videoUrl: formData.type === "video" ? videoUrl : undefined,
-        videoDuration:
-          formData.type === "video"
-            ? parseInt(watchDurationMinutes) * 60 +
-              parseInt(watchDurationSeconds)
-            : undefined,
         surveyQuestions:
           formData.type === "survey" ? surveyQuestions : undefined,
         quizQuestions: formData.type === "quiz" ? quizQuestions : undefined,
@@ -391,9 +386,11 @@ function CreateCampaignFormComponent() {
             ← Back
           </button>
           <div className={styles.headerContent}>
-            <img
+            <Image
               src="/Adexus logo.png"
               alt="Adexus Logo"
+              width={48}
+              height={48}
               className={styles.appLogo}
             />
             <div>
@@ -541,7 +538,7 @@ function CreateCampaignFormComponent() {
                     onClick={() =>
                       setFormData((prev) => ({
                         ...prev,
-                        type: option.value as CampaignType,
+                        type: option.value,
                       }))
                     }
                   >

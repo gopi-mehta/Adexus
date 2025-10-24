@@ -10,7 +10,7 @@ import "@coinbase/onchainkit/styles.css";
 const queryClient = new QueryClient();
 
 export function RootProvider({ children }: { children: ReactNode }) {
-  const [mounted, setMounted] = useState(false);
+  const [_mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);

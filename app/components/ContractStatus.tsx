@@ -7,7 +7,7 @@ import { getNetworkName, isSupportedNetwork } from "../lib/contracts/config";
 
 export function ContractStatus() {
   const [mounted, setMounted] = useState(false);
-  const { address, isConnected } = useAccount();
+  const { address: _address, isConnected } = useAccount();
   const chainId = useChainId();
   const { contractAddress, useCampaignCounter } = useCampaignContract();
   const { data: campaignCounter, isLoading, error } = useCampaignCounter();
@@ -92,8 +92,8 @@ export function ContractStatus() {
           ⚠️ Contract not deployed on this network.
           {chainId === 8453 ? (
             <div style={{ marginTop: "4px" }}>
-              You're on Base Mainnet. Switch to Base Sepolia to use the deployed
-              contract.
+              You&apos;re on Base Mainnet. Switch to Base Sepolia to use the
+              deployed contract.
             </div>
           ) : (
             <div style={{ marginTop: "4px" }}>

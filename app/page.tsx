@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useQuickAuth } from "@coinbase/onchainkit/minikit";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { Navigation, FilterBar } from "./components/Navigation";
 import { CampaignCard } from "./components/CampaignCard";
 import { UserInfo } from "./components/UserInfo";
@@ -47,7 +48,7 @@ function HomeContent() {
 
   // No longer using localStorage - only blockchain data
 
-  const { data: authData } = useQuickAuth<AuthResponse>("/api/auth", {
+  const { data: _authData } = useQuickAuth<AuthResponse>("/api/auth", {
     method: "GET",
   });
 
@@ -66,9 +67,11 @@ function HomeContent() {
       <header className={styles.header}>
         <div className={styles.headerTop}>
           <div className={styles.headerLeft}>
-            <img
+            <Image
               src="/Adexus logo.png"
               alt="Adexus Logo"
+              width={48}
+              height={48}
               className={styles.appLogo}
             />
             <div>

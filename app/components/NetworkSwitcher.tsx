@@ -38,8 +38,8 @@ export function NetworkSwitcher() {
         🔄 Switch Network Required
       </div>
       <div style={{ marginBottom: "8px" }}>
-        You're currently on {chain?.name || "Unknown Network"}. The contract is
-        deployed on Base Sepolia testnet.
+        You&apos;re currently on {chain?.name || "Unknown Network"}. The
+        contract is deployed on Base Sepolia testnet.
       </div>
       <Button
         onClick={() => switchChain({ chainId: baseSepolia.id })}
