@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { Button } from "../components/ui/Button";
 import { WalletGate } from "../components/WalletGate";
-import { ContractStatus } from "../components/ContractStatus";
+// import { ContractStatus } from "../components/ContractStatus";
 import { NetworkSwitcher } from "../components/NetworkSwitcher";
 import { useCreateCampaign } from "../lib/dataService";
 import { isValidYouTubeUrl } from "../lib/youtubeUtils";
@@ -422,9 +422,9 @@ function CreateCampaignFormComponent() {
           </div>
 
           {/* Contract Status */}
-          <div style={{ marginTop: "16px" }}>
+          {/* <div style={{ marginTop: "16px" }}>
             <ContractStatus />
-          </div>
+          </div> */}
         </div>
 
         <form className={styles.form} onSubmit={handleSubmit}>

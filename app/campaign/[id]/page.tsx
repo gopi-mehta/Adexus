@@ -18,12 +18,14 @@ function CampaignPageContent() {
   const { campaigns: realCampaigns, isLoading } = useRealCampaigns();
   const {
     completeCampaign,
+    useHasParticipated,
     isWritePending,
     isConfirmed: _isConfirmed,
     writeError: _writeError,
   } = useCampaignContract();
   const [campaign, setCampaign] = useState<Campaign | null>(null);
   const [isCreator, setIsCreator] = useState(false);
+  const [hasAlreadyParticipated, setHasAlreadyParticipated] = useState(false);
   const [step, setStep] = useState<"intro" | "action" | "complete">("intro");
   const [progress, setProgress] = useState(0);
 
@@ -44,9 +46,14 @@ function CampaignPageContent() {
   const [shareClicked, setShareClicked] = useState(false);
   const [isCompleting, setIsCompleting] = useState(false);
 
-  useEffect(() => {
-    const campaignId = params.id as string;
+  // Check if user has already participated
+  const campaignId = params.id as string;
+  const { data: hasParticipated } = useHasParticipated(
+    parseInt(campaignId),
+    address
+  );
 
+  useEffect(() => {
     // First try to find in real campaigns
     if (realCampaigns) {
       const foundCampaign = realCampaigns.find((c) => c.id === campaignId);
@@ -59,6 +66,10 @@ function CampaignPageContent() {
             foundCampaign.creator.toLowerCase() === address.toLowerCase()
           )
         );
+        // Check if user has already participated
+        if (hasParticipated) {
+          setHasAlreadyParticipated(true);
+        }
         return;
       }
     }
@@ -69,7 +80,14 @@ function CampaignPageContent() {
     if (!isLoading) {
       console.error("Campaign not found:", campaignId);
     }
-  }, [params.id, realCampaigns, isLoading, address]);
+  }, [
+    params.id,
+    realCampaigns,
+    isLoading,
+    address,
+    campaignId,
+    hasParticipated,
+  ]);
 
   if (!campaign) {
     return (
@@ -165,15 +183,42 @@ function CampaignPageContent() {
 
     setIsCompleting(true);
     try {
+      // Prepare campaign response data
+      const campaignResponse = {
+        campaignId: campaign.id,
+        campaignType: campaign.type,
+        userAddress: address,
+        timestamp: new Date().toISOString(),
+        surveyAnswers: campaign.type === "survey" ? surveyAnswers : undefined,
+        quizAnswers:
+          campaign.type === "quiz"
+            ? {
+                answers: quizAnswers,
+                score: quizScore,
+                totalQuestions: campaign.quizQuestions?.length || 0,
+              }
+            : undefined,
+      };
+
+      // TODO: Send answers to your backend API
+      // await fetch('/api/campaign-responses', {
+      //   method: 'POST',
+      //   body: JSON.stringify(campaignResponse)
+      // });
+
+      console.log("Campaign Response Data:", campaignResponse);
+
       // Call the blockchain function to complete the campaign
       await completeCampaign(parseInt(campaign.id));
       setStep("complete");
       setProgress(100);
     } catch (error) {
       console.error("Failed to complete campaign:", error);
-      // Still show completion UI even if blockchain call fails
-      setStep("complete");
-      setProgress(100);
+      alert(
+        `Failed to complete campaign: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`
+      );
     } finally {
       setIsCompleting(false);
     }
@@ -277,7 +322,17 @@ function CampaignPageContent() {
             </ul>
           </div>
 
-          {isCreator ? (
+          {hasAlreadyParticipated ? (
+            <div className={styles.creatorNotice}>
+              <div className={styles.noticeIcon}>✅</div>
+              <div className={styles.noticeText}>
+                <strong>You've already completed this campaign</strong>
+                <br />
+                Each user can only participate once per campaign. Your reward
+                has already been distributed.
+              </div>
+            </div>
+          ) : isCreator ? (
             <div className={styles.creatorNotice}>
               <div className={styles.noticeIcon}>👑</div>
               <div className={styles.noticeText}>
@@ -581,8 +636,19 @@ function CampaignPageContent() {
 
             <div className={styles.rewardCard}>
               <div className={styles.rewardLabel}>You earned</div>
-              <div className={styles.rewardAmount}>+${campaign.reward}</div>
-              <div className={styles.rewardToken}>{campaign.rewardToken}</div>
+              <div className={styles.rewardAmount}>
+                {campaign.reward} {campaign.rewardToken}
+              </div>
+              <div
+                className={styles.rewardSubtext}
+                style={{
+                  fontSize: "0.875rem",
+                  color: "rgba(255, 255, 255, 0.85)",
+                  marginTop: "8px",
+                }}
+              >
+                ≈ ${(campaign.reward * 2500).toFixed(2)} USD
+              </div>
             </div>
 
             {campaign.type === "quiz" &&
@@ -603,16 +669,76 @@ function CampaignPageContent() {
               })()}
 
             <div className={styles.completionMessage}>
-              <p>
-                The reward has been added to your account and will be available
-                for withdrawal once the minimum threshold is reached.
+              <div style={{ fontWeight: "600", marginBottom: "8px" }}>
+                🎉 Reward Sent Successfully!
+              </div>
+              <p style={{ margin: 0 }}>
+                The reward has been sent to your wallet address:
+              </p>
+              <p
+                style={{
+                  margin: "8px 0 0 0",
+                  fontFamily: "monospace",
+                  fontSize: "0.75rem",
+                  wordBreak: "break-all",
+                }}
+              >
+                {address}
               </p>
             </div>
 
+            {(campaign.type === "survey" || campaign.type === "quiz") && (
+              <div
+                style={{
+                  background: "white",
+                  border: "1px solid #e5e7eb",
+                  borderRadius: "12px",
+                  padding: "16px",
+                  marginBottom: "24px",
+                }}
+              >
+                <p
+                  style={{
+                    margin: 0,
+                    fontSize: "0.875rem",
+                    color: "#64748b",
+                  }}
+                >
+                  📊 Your responses have been recorded and will help improve
+                  future campaigns
+                </p>
+              </div>
+            )}
+
             <div className={styles.buttonGroup}>
               <Button onClick={handleBackHome} size="lg" fullWidth>
-                Back to Campaigns
+                Explore More Campaigns
               </Button>
+              <div style={{ marginTop: "12px" }}>
+                <button
+                  onClick={() => router.push("/?tab=rewards")}
+                  style={{
+                    width: "100%",
+                    padding: "14px 24px",
+                    background: "white",
+                    border: "2px solid #0052ff",
+                    borderRadius: "12px",
+                    color: "#0052ff",
+                    fontSize: "1rem",
+                    fontWeight: "600",
+                    cursor: "pointer",
+                    transition: "all 0.2s ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = "#f0f7ff";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "white";
+                  }}
+                >
+                  View My Earnings
+                </button>
+              </div>
             </div>
           </div>
         </div>

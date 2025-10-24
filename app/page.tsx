@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useQuickAuth } from "@coinbase/onchainkit/minikit";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Navigation, FilterBar } from "./components/Navigation";
 import { CampaignCard } from "./components/CampaignCard";
@@ -25,10 +25,23 @@ interface AuthResponse {
 
 function HomeContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<
     "campaigns" | "rewards" | "creator"
   >("campaigns");
   const [activeFilter, setActiveFilter] = useState("all");
+
+  // Check for tab query parameter on mount
+  useEffect(() => {
+    const tabParam = searchParams.get("tab");
+    if (
+      tabParam === "rewards" ||
+      tabParam === "creator" ||
+      tabParam === "campaigns"
+    ) {
+      setActiveTab(tabParam);
+    }
+  }, [searchParams]);
   // Use real data from blockchain
   const {
     campaigns: realCampaigns,

@@ -26,7 +26,7 @@ export const minikitConfig = {
     screenshotUrls: [`${ROOT_URL}/Adexus.png`],
     iconUrl: `${ROOT_URL}/Adexus.png`,
     splashImageUrl: `${ROOT_URL}/Adexus.png`,
-    splashBackgroundColor: "#000000",
+    splashBackgroundColor: "#ffffff",
     homeUrl: ROOT_URL,
     webhookUrl: `${ROOT_URL}/api/webhook`,
     primaryCategory: "social",
