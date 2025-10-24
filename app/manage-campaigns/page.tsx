@@ -88,11 +88,18 @@ function ManageCampaignsContent() {
         </button>
 
         <div className={styles.headerTop}>
-          <div>
-            <h1 className={styles.title}>Manage Campaigns</h1>
-            <p className={styles.subtitle}>
-              Track and manage your active campaigns
-            </p>
+          <div className={styles.headerContent}>
+            <img
+              src="/Adexus logo.png"
+              alt="Adexus Logo"
+              className={styles.appLogo}
+            />
+            <div>
+              <h1 className={styles.title}>Manage Campaigns</h1>
+              <p className={styles.subtitle}>
+                Track and manage your active campaigns
+              </p>
+            </div>
           </div>
           <Button onClick={() => router.push("/create-campaign")} size="md">
             + Create Campaign

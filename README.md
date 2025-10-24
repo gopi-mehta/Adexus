@@ -1,4 +1,6 @@
-# Adexus - Empowering users, amplifying brands, revolutionizing attention
+# Adexus
+
+### Empowering users, amplifying brands, revolutionizing attention
 
 A modern, mobile-first mini-app that enables brands to launch campaigns where users earn cryptocurrency rewards for completing various engagement actions.
 
@@ -71,17 +73,12 @@ A modern, mobile-first mini-app that enables brands to launch campaigns where us
 1. **Install Dependencies**
 
    ```bash
-   cd new-mini-app-quickstart
    npm install
    ```
 
 2. **Environment Variables**
-   Create a `.env.local` file:
 
-   ```env
-   NEXT_PUBLIC_URL=http://localhost:3000
-   NEXT_PUBLIC_ONCHAINKIT_API_KEY=your_api_key_here
-   ```
+   Check the `.example.env` file rename it to `.env.local`, add the relevant keys
 
 3. **Run Development Server**
 
@@ -92,89 +89,20 @@ A modern, mobile-first mini-app that enables brands to launch campaigns where us
 4. **Open in Browser**
    Navigate to `http://localhost:3000`
 
-## 🎨 Design Philosophy
+## 🔄 Web3 Integration
 
-### Mobile-First
+The app uses mock data for rapid prototyping. Ready for blockchain integration with:
 
-- Optimized for mobile viewports
-- Touch-friendly interactions (44px minimum touch targets)
-- Smooth animations and transitions
-- Safe area insets for modern devices
+- Smart contracts for campaign management and rewards
+- Wallet connection (Wagmi configured)
+- Token transfers and on-chain verification
 
-### Modern UI
+## 📊 User Flow
 
-- Clean, minimal interface
-- Gradient accents for visual appeal
-- Card-based layout for content organization
-- Consistent spacing and typography
-
-### User Experience
-
-- Haptic feedback support (where available)
-- Progressive disclosure of information
-- Clear visual feedback for actions
-- Accessible focus states
-
-## 🔄 Next Steps for Web3 Integration
-
-The app is currently using mock data for rapid prototyping. To integrate with blockchain:
-
-1. **Smart Contracts**
-
-   - Deploy campaign management contract
-   - Deploy reward distribution contract
-   - Implement escrow for brand payments
-
-2. **Backend API**
-
-   - Create campaign CRUD endpoints
-   - Implement user authentication
-   - Add reward claiming logic
-   - Track completion proofs
-
-3. **Blockchain Integration**
-
-   - Connect wallet (already configured with Wagmi)
-   - Implement token transfers
-   - Add on-chain verification
-   - Support multiple tokens (USDC, ETH, etc.)
-
-4. **Database**
-   - Replace mock data with database queries
-   - Store user progress and rewards
-   - Track campaign analytics
-   - Implement caching for performance
-
-## 📊 Campaign Flow
-
-### Video Campaign
-
-1. User views campaign details
-2. Clicks "Start Campaign"
-3. Video plays with progress tracking
-4. Upon completion, user claims reward
-5. Reward added to user balance
-
-### Survey Campaign
-
-1. User answers questions one by one
-2. Progress shown as questions completed
-3. All questions must be answered
-4. Reward credited upon submission
-
-### Quiz Campaign
-
-1. User answers multiple-choice questions
-2. Score calculated based on correct answers
-3. Reward amount can be score-based
-4. Results shown upon completion
-
-### Share Campaign
-
-1. User previews content to share
-2. Selects social platform
-3. Shares content (tracked via share API)
-4. Instant reward upon verification
+1. **Browse** campaigns by type (video, survey, quiz, share)
+2. **Complete** engagement actions with progress tracking
+3. **Claim** crypto rewards upon completion
+4. **Track** earnings and achievements
 
 ## 🎯 Mock Data Structure
 
@@ -249,39 +177,12 @@ app/
 
 ## 🚀 Deployment
 
-### Vercel (Recommended)
+### Vercel
 
 ```bash
 npm run build
-# Deploy to Vercel
+# Deploy to Vercel and update the env variable accordingly
 ```
-
-### Environment Variables for Production
-
-- `NEXT_PUBLIC_URL`: Your production domain
-- `NEXT_PUBLIC_ONCHAINKIT_API_KEY`: OnchainKit API key
-- Add Web3 provider endpoints when ready
-
-## 🔐 Privacy & Security
-
-- **No PII Collection**: Users engage anonymously
-- **Wallet-Based Identity**: Authentication via wallet signature
-- **Verifiable Rewards**: All rewards tracked on-chain (when integrated)
-- **Brand Escrow**: Funds locked until action completion
-
-## 📝 License
-
-MIT License - Feel free to use for hackathons and production!
-
-## 🤝 Contributing
-
-This is a hackathon starter template. Feel free to:
-
-- Add new campaign types
-- Improve UI/UX
-- Add animations
-- Integrate real blockchain functionality
-- Add analytics and tracking
 
 ## 🎉 What Makes This Special
 
@@ -294,4 +195,4 @@ This is a hackathon starter template. Feel free to:
 
 ---
 
-Built with ❤️ for the Base Hackathon using MiniKit and OnchainKit
+Built with 💙 for the Base Batches 002 Hackathon

@@ -4,11 +4,7 @@ import { useQuickAuth } from "@coinbase/onchainkit/minikit";
 import { useRouter } from "next/navigation";
 import { Navigation, FilterBar } from "./components/Navigation";
 import { CampaignCard } from "./components/CampaignCard";
-import { WalletConnect } from "./components/WalletConnect";
 import { UserInfo } from "./components/UserInfo";
-import { BlockchainStatus } from "./components/BlockchainStatus";
-import { NetworkSwitcher } from "./components/NetworkSwitcher";
-import { IPFSStatus } from "./components/IPFSStatus";
 import { Campaign } from "./lib/dataService";
 import { useRealCampaigns, useRealUserProgress } from "./lib/dataService";
 import { ClientWrapper } from "./components/ClientWrapper";
@@ -69,31 +65,18 @@ function HomeContent() {
       {/* Header */}
       <header className={styles.header}>
         <div className={styles.headerTop}>
-          <div>
-            <h1 className={styles.appName}>RewardFlow</h1>
-            <p className={styles.tagline}>Earn crypto for your engagement</p>
+          <div className={styles.headerLeft}>
+            <img
+              src="/Adexus logo.png"
+              alt="Adexus Logo"
+              className={styles.appLogo}
+            />
+            <div>
+              <h1 className={styles.appName}>Adexus</h1>
+              <p className={styles.tagline}>Earn crypto for your engagement</p>
+            </div>
           </div>
           <UserInfo />
-        </div>
-
-        {/* Wallet Connection */}
-        <div style={{ marginTop: "16px" }}>
-          <WalletConnect />
-        </div>
-
-        {/* Network Switcher */}
-        <div style={{ marginTop: "16px" }}>
-          <NetworkSwitcher />
-        </div>
-
-        {/* Blockchain Status */}
-        <div style={{ marginTop: "16px" }}>
-          <BlockchainStatus />
-        </div>
-
-        {/* IPFS Status */}
-        <div style={{ marginTop: "16px" }}>
-          <IPFSStatus />
         </div>
       </header>
 

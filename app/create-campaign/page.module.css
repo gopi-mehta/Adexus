@@ -11,6 +11,20 @@
   margin-bottom: 32px;
 }
 
+.headerContent {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.appLogo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
 .backButton {
   background: none;
   border: none;
