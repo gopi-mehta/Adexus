@@ -247,6 +247,53 @@
   filter: grayscale(0.3);
 }
 
+.loadingSpinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #e5e7eb;
+  border-top: 4px solid #7c3aed;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeletonText {
+  height: 20px;
+  width: 60%;
+  margin: 0 auto;
+}
+
+.skeletonValue {
+  height: 32px;
+  width: 80px;
+  margin: 0 auto 8px;
+}
+
 .emptyTitle {
   font-size: 1.125rem;
   font-weight: 700;
@@ -277,6 +324,13 @@
   .emptyIcon {
     font-size: 5rem;
     margin-bottom: 20px;
+  }
+
+  .loadingSpinner {
+    width: 64px;
+    height: 64px;
+    border-width: 5px;
+    margin: 0 auto 24px;
   }
 
   .emptyTitle {

@@ -110,20 +110,55 @@ function HomeContent() {
         <div className={styles.content}>
           <div className={styles.statsBar}>
             <div className={styles.stat}>
-              <div className={styles.statValue}>{filteredCampaigns.length}</div>
-              <div className={styles.statLabel}>Active Campaigns</div>
+              {campaignsLoading ? (
+                <>
+                  <div
+                    className={`${styles.skeleton} ${styles.skeletonValue}`}
+                  ></div>
+                  <div className={styles.statLabel}>Active Campaigns</div>
+                </>
+              ) : (
+                <>
+                  <div className={styles.statValue}>
+                    {filteredCampaigns.length}
+                  </div>
+                  <div className={styles.statLabel}>Active Campaigns</div>
+                </>
+              )}
             </div>
             <div className={styles.stat}>
-              <div className={styles.statValue}>
-                {userProgress.totalEarned.toFixed(4) + " " + "ETH"}
-              </div>
-              <div className={styles.statLabel}>Total Earned</div>
+              {campaignsLoading ? (
+                <>
+                  <div
+                    className={`${styles.skeleton} ${styles.skeletonValue}`}
+                  ></div>
+                  <div className={styles.statLabel}>Total Earned</div>
+                </>
+              ) : (
+                <>
+                  <div className={styles.statValue}>
+                    {userProgress.totalEarned.toFixed(4) + " " + "ETH"}
+                  </div>
+                  <div className={styles.statLabel}>Total Earned</div>
+                </>
+              )}
             </div>
             <div className={styles.stat}>
-              <div className={styles.statValue}>
-                {userProgress.campaignsCompleted}
-              </div>
-              <div className={styles.statLabel}>Completed</div>
+              {campaignsLoading ? (
+                <>
+                  <div
+                    className={`${styles.skeleton} ${styles.skeletonValue}`}
+                  ></div>
+                  <div className={styles.statLabel}>Completed</div>
+                </>
+              ) : (
+                <>
+                  <div className={styles.statValue}>
+                    {userProgress.campaignsCompleted}
+                  </div>
+                  <div className={styles.statLabel}>Completed</div>
+                </>
+              )}
             </div>
           </div>
 
@@ -134,7 +169,7 @@ function HomeContent() {
 
           {campaignsLoading ? (
             <div className={styles.emptyState}>
-              <div className={styles.emptyIcon}>⏳</div>
+              <div className={styles.loadingSpinner}></div>
               <h3 className={styles.emptyTitle}>Loading campaigns...</h3>
               <p className={styles.emptyText}>Fetching data from blockchain</p>
             </div>

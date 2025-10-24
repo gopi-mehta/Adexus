@@ -30,7 +30,9 @@ export interface CampaignData {
 export function useCampaignContract() {
   const chainId = useChainId();
   const { address } = useAccount();
-  const contractAddress = getContractAddress(chainId);
+  // Default to Base Sepolia if no chain is connected
+  const effectiveChainId = chainId || 84532; // 84532 is Base Sepolia
+  const contractAddress = getContractAddress(effectiveChainId);
 
   const {
     writeContractAsync,
@@ -66,7 +68,7 @@ export function useCampaignContract() {
         functionName: "getCampaigns",
         args: [BigInt(startId), BigInt(count)],
         query: {
-          enabled: startId > 0 && count > 0, // Only call if we have valid parameters
+          enabled: !!contractAddress && startId > 0 && count > 0, // Check contract address and valid params
         },
       });
     },
@@ -118,6 +120,9 @@ export function useCampaignContract() {
       address: contractAddress as `0x${string}`,
       abi: CampaignRegistryABI.abi,
       functionName: "campaignCounter",
+      query: {
+        enabled: !!contractAddress, // Only query if we have a contract address
+      },
     });
   }, [contractAddress]);
 
