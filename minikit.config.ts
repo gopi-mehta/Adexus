@@ -37,7 +37,7 @@ export const minikitConfig = {
     ogTitle: "Adexus",
     ogDescription:
       "Complete brand campaigns and earn instant crypto rewards. No data sharing required.",
-    ogImageUrl: `${ROOT_URL}/Adexus_horizontal.png`, // ensure this image is 1200x630 px recommended
+    ogImageUrl: `${ROOT_URL}/Adexus.png`, // ensure this image is 1200x630 px recommended
   },
   baseBuilder: {
     ownerAddress: "0xcc30b50D97ef2993201161945Eda9D4912d8dE55",

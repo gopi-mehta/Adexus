@@ -5,6 +5,7 @@ import { OnchainKitProvider } from "@coinbase/onchainkit";
 import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { wagmiConfig } from "./lib/wagmiConfig";
+import { sdk } from "@farcaster/miniapp-sdk";
 import "@coinbase/onchainkit/styles.css";
 
 const queryClient = new QueryClient();
@@ -14,6 +15,12 @@ export function RootProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     setMounted(true);
+
+    // Call ready() to hide the Farcaster splash screen
+    // This is required for Mini Apps to display properly
+    sdk.actions.ready().catch((error) => {
+      console.error("Failed to call sdk.actions.ready():", error);
+    });
   }, []);
 
   return (
