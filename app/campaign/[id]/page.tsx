@@ -326,7 +326,7 @@ function CampaignPageContent() {
             <div className={styles.creatorNotice}>
               <div className={styles.noticeIcon}>✅</div>
               <div className={styles.noticeText}>
-                <strong>You've already completed this campaign</strong>
+                <strong>You&apos;ve already completed this campaign</strong>
                 <br />
                 Each user can only participate once per campaign. Your reward
                 has already been distributed.
