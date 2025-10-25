@@ -4,6 +4,12 @@
 
 A modern, mobile-first mini-app that enables brands to launch campaigns where users earn cryptocurrency rewards for completing various engagement actions.
 
+### Checkout the deplyed contract details here
+
+```
+https://sepolia.basescan.org/address/0x507580db0085514e174515a8c9798ef6c1a5d939
+```
+
 ## 🎯 Features
 
 ### For Users

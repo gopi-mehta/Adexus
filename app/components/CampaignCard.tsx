@@ -89,11 +89,18 @@ export function CampaignCard({
               variant={progress > 80 ? "warning" : "primary"}
             />
           </div>
-          {isCompleted && (
-            <Badge variant="success" size="sm">
-              ✓ Completed
-            </Badge>
-          )}
+          <div className={styles.badges}>
+            {!campaign.isActive && (
+              <Badge variant="warning" size="sm">
+                ⏸️ Paused
+              </Badge>
+            )}
+            {isCompleted && (
+              <Badge variant="success" size="sm">
+                ✓ Completed
+              </Badge>
+            )}
+          </div>
         </div>
       </CardFooter>
     </Card>

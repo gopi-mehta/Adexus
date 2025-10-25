@@ -7,23 +7,37 @@ import { Progress } from "../components/ui/Progress";
 import { useUserCampaigns } from "../lib/dataService";
 import { Campaign } from "../lib/dataService";
 import { useCampaignContract } from "../lib/contracts/useCampaignContract";
+import { useQueryClient } from "@tanstack/react-query";
 import styles from "./page.module.css";
 
 function ManageCampaignsContent() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { campaigns, isLoading, error } = useUserCampaigns();
   const { toggleCampaignStatus, withdrawUnusedFunds, isWritePending } =
     useCampaignContract();
-  const [filter, setFilter] = useState<"all" | "active" | "paused" | "ended">(
-    "all"
-  );
+  const [filter, setFilter] = useState<
+    "all" | "active" | "paused" | "ended" | "discontinued"
+  >("all");
   const [isProcessing, setIsProcessing] = useState<string | null>(null);
 
-  const getStatus = (campaign: Campaign): "active" | "paused" | "ended" => {
+  const getStatus = (
+    campaign: Campaign
+  ): "active" | "paused" | "ended" | "discontinued" => {
     const expiresAt = new Date(campaign.expiresAt);
     const now = new Date();
 
+    // Check if funds have been withdrawn (discontinued)
+    const unusedFunds = campaign.totalFunded - campaign.totalPaid;
+    const remainingSpots =
+      campaign.maxParticipants - campaign.participantsCount;
+    const platformFeePercentage = 0.025;
+    const reservedPlatformFees =
+      remainingSpots * campaign.reward * platformFeePercentage;
+    const hasWithdrawnFunds = unusedFunds < reservedPlatformFees + 0.0001; // Small buffer for rounding
+
     if (expiresAt < now) return "ended";
+    if (hasWithdrawnFunds && !campaign.isActive) return "discontinued";
     if (!campaign.isActive) return "paused";
     return "active";
   };
@@ -49,7 +63,13 @@ function ManageCampaignsContent() {
     try {
       setIsProcessing(campaignId);
       await toggleCampaignStatus(parseInt(campaignId));
-      // The UI will update automatically when the blockchain data refreshes
+
+      // Wait a moment for blockchain to update, then refresh all queries
+      setTimeout(() => {
+        queryClient.invalidateQueries();
+      }, 2000);
+
+      alert("Campaign status updated successfully!");
     } catch (error) {
       console.error("Error toggling campaign status:", error);
       alert("Failed to toggle campaign status. Please try again.");
@@ -59,24 +79,35 @@ function ManageCampaignsContent() {
   };
 
   const handleWithdrawFunds = async (campaignId: string) => {
+    console.log("🔵 Withdraw button clicked for campaign:", campaignId);
+
     try {
       setIsProcessing(campaignId);
+      console.log("🔵 Processing state set, calling withdrawUnusedFunds...");
 
       // Note: Smart contract will handle the actual withdrawal
       // UI shows withdrawable amount excluding platform fees for transparency
-      await withdrawUnusedFunds(parseInt(campaignId));
+      const result = await withdrawUnusedFunds(parseInt(campaignId));
+      console.log("✅ Withdrawal transaction submitted:", result);
+
+      // Wait a moment for blockchain to update, then refresh all queries
+      setTimeout(() => {
+        console.log("🔄 Refreshing campaign data...");
+        queryClient.invalidateQueries();
+      }, 2000);
 
       alert(
         "Funds withdrawn successfully!\n\nNote: Platform fees (2.5%) for unfilled spots remain reserved in the contract."
       );
     } catch (error) {
-      console.error("Error withdrawing funds:", error);
+      console.error("❌ Error withdrawing funds:", error);
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error";
       alert(
         `Failed to withdraw funds: ${errorMessage}\n\nPlease ensure the campaign is paused or expired, and you have funds available to withdraw.`
       );
     } finally {
+      console.log("🔵 Processing complete, clearing state");
       setIsProcessing(null);
     }
   };
@@ -181,6 +212,7 @@ function ManageCampaignsContent() {
           { id: "active", label: "Active" },
           { id: "paused", label: "Paused" },
           { id: "ended", label: "Ended" },
+          { id: "discontinued", label: "Discontinued" },
         ].map((f) => (
           <button
             key={f.id}
@@ -254,6 +286,16 @@ function ManageCampaignsContent() {
               (!campaign.isActive ||
                 new Date(campaign.expiresAt) < new Date()) &&
               withdrawableAmount > 0;
+
+            // Debug logging
+            console.log(`Campaign ${campaign.id} withdrawal check:`, {
+              isActive: campaign.isActive,
+              expiresAt: campaign.expiresAt,
+              isExpired: new Date(campaign.expiresAt) < new Date(),
+              unusedFunds,
+              withdrawableAmount,
+              canWithdraw,
+            });
 
             return (
               <div key={campaign.id} className={styles.campaignCard}>
@@ -341,11 +383,40 @@ function ManageCampaignsContent() {
                   </button>
                   <button
                     className={styles.actionButton}
-                    onClick={() => handleToggleStatus(campaign.id)}
-                    disabled={isProcessing === campaign.id || isWritePending}
+                    onClick={() => {
+                      if (status === "discontinued") {
+                        alert(
+                          "❌ Cannot Resume Discontinued Campaign\n\n" +
+                            "This campaign has been discontinued after funds were withdrawn. " +
+                            "Discontinued campaigns cannot be resumed.\n\n" +
+                            "Please create a new campaign if you want to continue engaging with users."
+                        );
+                        return;
+                      }
+                      handleToggleStatus(campaign.id);
+                    }}
+                    disabled={
+                      isProcessing === campaign.id ||
+                      isWritePending ||
+                      status === "discontinued"
+                    }
+                    style={{
+                      opacity: status === "discontinued" ? 0.5 : 1,
+                      cursor:
+                        status === "discontinued" ? "not-allowed" : "pointer",
+                    }}
+                    title={
+                      status === "discontinued"
+                        ? "Cannot resume - campaign discontinued after withdrawal"
+                        : campaign.isActive
+                        ? "Pause campaign"
+                        : "Resume campaign"
+                    }
                   >
                     {isProcessing === campaign.id
                       ? "⏳ Processing..."
+                      : status === "discontinued"
+                      ? "🚫 Discontinued"
                       : campaign.isActive
                       ? "⏸️ Pause"
                       : "▶️ Resume"}
@@ -358,17 +429,48 @@ function ManageCampaignsContent() {
                   </button>
                   <button
                     className={`${styles.actionButton} ${styles.danger}`}
-                    onClick={() => handleWithdrawFunds(campaign.id)}
-                    disabled={
-                      !canWithdraw ||
-                      isProcessing === campaign.id ||
-                      isWritePending
-                    }
+                    onClick={() => {
+                      if (!canWithdraw) {
+                        if (
+                          campaign.isActive &&
+                          new Date(campaign.expiresAt) >= new Date()
+                        ) {
+                          alert(
+                            "⏸️ Campaign Must Be Paused First\n\n" +
+                              "You cannot withdraw funds while the campaign is active. " +
+                              "Please pause the campaign using the '⏸️ Pause' button, then try withdrawing again.\n\n" +
+                              `Withdrawable amount: ${withdrawableAmount.toFixed(
+                                4
+                              )} ETH`
+                          );
+                        } else if (
+                          withdrawableAmount === 0 &&
+                          unusedFunds > 0
+                        ) {
+                          alert(
+                            "Platform Fees Reserved\n\n" +
+                              `${reservedPlatformFees.toFixed(
+                                4
+                              )} ETH is reserved as platform fees (2.5%) for the remaining ${remainingSpots} unfilled spots.\n\n` +
+                              "These fees will be released when spots are filled or the campaign ends."
+                          );
+                        } else {
+                          alert("No funds available to withdraw.");
+                        }
+                        return;
+                      }
+                      handleWithdrawFunds(campaign.id);
+                    }}
+                    disabled={isProcessing === campaign.id || isWritePending}
+                    style={{
+                      opacity: canWithdraw ? 1 : 0.5,
+                      cursor: canWithdraw ? "pointer" : "not-allowed",
+                    }}
                     title={
                       !canWithdraw
                         ? campaign.isActive &&
                           new Date(campaign.expiresAt) >= new Date()
-                          ? "Campaign must be paused or expired to withdraw funds"
+                          ? "⏸️ Pause campaign first to withdraw funds"
                           : withdrawableAmount === 0 && unusedFunds > 0
                           ? `Platform fees (${reservedPlatformFees.toFixed(
                               4

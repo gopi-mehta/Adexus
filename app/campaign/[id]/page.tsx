@@ -322,40 +322,97 @@ function CampaignPageContent() {
             </ul>
           </div>
 
-          {hasAlreadyParticipated ? (
-            <div className={styles.creatorNotice}>
-              <div className={styles.noticeIcon}>✅</div>
-              <div className={styles.noticeText}>
-                <strong>You&apos;ve already completed this campaign</strong>
-                <br />
-                Each user can only participate once per campaign. Your reward
-                has already been distributed.
-              </div>
-            </div>
-          ) : isCreator ? (
-            <div className={styles.creatorNotice}>
-              <div className={styles.noticeIcon}>👑</div>
-              <div className={styles.noticeText}>
-                <strong>You created this campaign</strong>
-                <br />
-                Campaign creators cannot participate in their own campaigns
-              </div>
-            </div>
-          ) : !isConnected ? (
-            <div className={styles.walletNotice}>
-              <div className={styles.noticeIcon}>🔐</div>
-              <div className={styles.noticeText}>
-                <strong>Connect your wallet to participate</strong>
-                <br />
-                You need to connect your wallet to start this campaign
-              </div>
-              <WalletConnect />
-            </div>
-          ) : (
-            <Button onClick={handleStart} size="lg" fullWidth>
-              Start Campaign
-            </Button>
-          )}
+          {
+            (() => {
+              // Check if campaign is discontinued (funds withdrawn)
+              const unusedFunds = campaign.totalFunded - campaign.totalPaid;
+              const remainingSpots =
+                campaign.maxParticipants - campaign.participantsCount;
+              const platformFeePercentage = 0.025;
+              const reservedPlatformFees =
+                remainingSpots * campaign.reward * platformFeePercentage;
+              const isDiscontinued =
+                unusedFunds < reservedPlatformFees + 0.0001;
+
+              if (hasAlreadyParticipated) {
+                return (
+                  <div className={styles.creatorNotice}>
+                    <div className={styles.noticeIcon}>✅</div>
+                    <div className={styles.noticeText}>
+                      <strong>
+                        You&apos;ve already completed this campaign
+                      </strong>
+                      <br />
+                      Each user can only participate once per campaign. Your
+                      reward has already been distributed.
+                    </div>
+                  </div>
+                );
+              }
+
+              if (isDiscontinued && !campaign.isActive) {
+                return (
+                  <div className={styles.creatorNotice}>
+                    <div className={styles.noticeIcon}>🚫</div>
+                    <div className={styles.noticeText}>
+                      <strong>This campaign has been discontinued</strong>
+                      <br />
+                      The creator has withdrawn the funds and closed this
+                      campaign. No new participants can join.
+                    </div>
+                  </div>
+                );
+              }
+
+              if (!campaign.isActive) {
+                return (
+                  <div className={styles.creatorNotice}>
+                    <div className={styles.noticeIcon}>⏸️</div>
+                    <div className={styles.noticeText}>
+                      <strong>This campaign is currently paused</strong>
+                      <br />
+                      The creator has temporarily paused this campaign. Check
+                      back later!
+                    </div>
+                  </div>
+                );
+              }
+
+              if (isCreator) {
+                return (
+                  <div className={styles.creatorNotice}>
+                    <div className={styles.noticeIcon}>👑</div>
+                    <div className={styles.noticeText}>
+                      <strong>You created this campaign</strong>
+                      <br />
+                      Campaign creators cannot participate in their own
+                      campaigns
+                    </div>
+                  </div>
+                );
+              }
+
+              if (!isConnected) {
+                return (
+                  <div className={styles.walletNotice}>
+                    <div className={styles.noticeIcon}>🔐</div>
+                    <div className={styles.noticeText}>
+                      <strong>Connect your wallet to participate</strong>
+                      <br />
+                      You need to connect your wallet to start this campaign
+                    </div>
+                    <WalletConnect />
+                  </div>
+                );
+              }
+
+              return (
+                <Button onClick={handleStart} size="lg" fullWidth>
+                  Start Campaign
+                </Button>
+              );
+            })() as React.ReactNode
+          }
         </div>
       )}
 
